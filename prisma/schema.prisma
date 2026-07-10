@@ -1,0 +1,258 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  SORTEADOR
+  ADMIN
+}
+
+enum ProveedorPasarela {
+  WOMPI
+  BOLD
+}
+
+enum TipoPremio {
+  FIJO
+  PORCENTAJE
+}
+
+enum EstadoSorteo {
+  BORRADOR
+  ACTIVO
+  EN_SORTEO
+  FINALIZADO
+  CANCELADO
+}
+
+enum TipoProducto {
+  VIDEO
+  IMAGEN
+  PDF
+  ZIP
+}
+
+enum EstadoBono {
+  PENDIENTE
+  PAGADO
+  ASIGNADO
+  ENTREGADO
+  CANCELADO
+}
+
+enum TransaccionTipo {
+  COMPRA
+  COMISION_THOR
+}
+
+enum EstadoTx {
+  CREADA
+  PENDIENTE
+  APROBADA
+  RECHAZADA
+  FALLIDA
+}
+
+enum EstadoCuenta {
+  PENDIENTE
+  ENVIADA
+  PAGADA
+  VENCIDA
+  RECHAZADA
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  role          UserRole  @default(SORTEADOR)
+  accounts      Account[]
+  sessions      Session[]
+  sorteador     SorteadorProfile?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model SorteadorProfile {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  slug          String   @unique
+  nombrePublico String
+  descripcion   String?
+  logoUrl       String?
+  bannerUrl     String?
+  colorAcento   String   @default("#6D28D9")
+  telefono      String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  pasarelaConfig PasarelaConfig?
+  sorteos        Sorteo[]
+  productos      ProductoDigital[]
+  cuentasCobro   CuentaCobro[]
+}
+
+model PasarelaConfig {
+  id               String             @id @default(cuid())
+  sorteadorId      String             @unique
+  sorteador        SorteadorProfile   @relation(fields: [sorteadorId], references: [id], onDelete: Cascade)
+  proveedor        ProveedorPasarela
+  publicKeyCif     String
+  privateKeyCif    String
+  integrityKeyCif  String?
+  eventsKeyCif     String?
+  sandbox          Boolean            @default(true)
+  paymentLinkKeyCif String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+}
+
+model Sorteo {
+  id             String   @id @default(cuid())
+  sorteadorId    String
+  sorteador      SorteadorProfile @relation(fields: [sorteadorId], references: [id], onDelete: Cascade)
+  slug           String   @unique
+  titulo         String
+  descripcion    String?
+  bannerUrl      String?
+  tipoPremio     TipoPremio
+  premioFijo     Decimal? @db.Decimal(12, 2)
+  porcentajePremio Int?
+  precioBono     Decimal  @db.Decimal(12, 2)
+  totalBonos     Int
+  bonosVendidos  Int      @default(0)
+  rangoPuestosMin Int     @default(10000)
+  rangoPuestosMax Int     @default(99999)
+  fechaInicio    DateTime
+  fechaCierre    DateTime
+  fechaSorteo    DateTime
+  estado         EstadoSorteo @default(BORRADOR)
+  commitHash     String?
+  revealSeed     String?
+  ganadorBonoId  String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  productos      ProductoDigital[]
+  participantes  ParticipanteBono[]
+  transacciones  TransaccionPasarela[]
+  cuentaCobro    CuentaCobro?
+}
+
+model ProductoDigital {
+  id          String            @id @default(cuid())
+  sorteadorId String
+  sorteador   SorteadorProfile @relation(fields: [sorteadorId], references: [id], onDelete: Cascade)
+  sorteoId    String?
+  sorteo      Sorteo?           @relation(fields: [sorteoId], references: [id], onDelete: SetNull)
+  tipo        TipoProducto
+  titulo      String
+  descripcion String?
+  precio      Decimal           @db.Decimal(12, 2)
+  archivoUrl  String
+  archivoKey  String
+  previewUrl  String?
+  previewKey  String?
+  activo      Boolean           @default(true)
+  createdAt   DateTime          @default(now())
+}
+
+model ParticipanteBono {
+  id               String     @id @default(cuid())
+  sorteoId         String
+  sorteo           Sorteo     @relation(fields: [sorteoId], references: [id], onDelete: Cascade)
+  nombreComprador  String
+  emailComprador   String
+  telefono         String?
+  cantidad         Int        @default(1)
+  puestos          Int[]
+  puestosAsignadosAt DateTime?
+  transaccionId    String?    @unique
+  transaccion      TransaccionPasarela? @relation("BonoTx", fields: [transaccionId], references: [id], onDelete: SetNull)
+  estado           EstadoBono @default(PENDIENTE)
+  claveEntrega     String?
+  entregadoAt      DateTime?
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  @@unique([sorteoId, emailComprador, transaccionId])
+}
+
+model TransaccionPasarela {
+  id                String           @id @default(cuid())
+  sorteoId          String
+  sorteo            Sorteo           @relation(fields: [sorteoId], references: [id], onDelete: Cascade)
+  bono              ParticipanteBono? @relation("BonoTx")
+  tipo              TransaccionTipo  @default(COMPRA)
+  referenciaExterna String           @unique
+  proveedor         ProveedorPasarela
+  monto             Decimal          @db.Decimal(12, 2)
+  moneda            String           @default("COP")
+  metodoPago        String?
+  estado            EstadoTx         @default(CREADA)
+  firmaWebhook      String?
+  webhookRecibidoAt DateTime?
+  rawPayload        Json?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+model CuentaCobro {
+  id              String       @id @default(cuid())
+  sorteadorId     String
+  sorteador       SorteadorProfile @relation(fields: [sorteadorId], references: [id], onDelete: Cascade)
+  sorteoId        String       @unique
+  sorteo          Sorteo       @relation(fields: [sorteoId], references: [id], onDelete: Cascade)
+  totalRecaudado  Decimal      @db.Decimal(12, 2)
+  comisionPct     Decimal      @default(0.01) @db.Decimal(5, 4)
+  montoComision   Decimal      @db.Decimal(12, 2)
+  estadoCuenta    EstadoCuenta @default(PENDIENTE)
+  linkPagoUrl     String?
+  referenciaCobro String?
+  pdfUrl          String?
+  enviadaAt       DateTime?
+  pagadaAt        DateTime?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+}
