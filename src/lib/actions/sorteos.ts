@@ -199,15 +199,17 @@ export async function publishSorteo(id: string) {
     throw new Error("Debes configurar tu pasarela de pago antes de publicar")
   }
 
+  const productosVinculados = await prisma.productoDigital.count({
+    where: { sorteoId: id },
+  })
+
+  if (productosVinculados === 0) {
+    throw new Error("Debes agregar al menos un producto digital al sorteo antes de publicarlo")
+  }
+
   await prisma.sorteo.update({
     where: { id },
     data: { estado: "ACTIVO" },
-  })
-
-  const sorteadorId = sorteo.sorteador.id
-  await prisma.productoDigital.updateMany({
-    where: { sorteadorId, activo: true, sorteoId: null },
-    data: { sorteoId: id },
   })
 
   revalidatePath(`/dashboard/sorteos/${id}`)

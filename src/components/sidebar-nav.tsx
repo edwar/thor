@@ -15,12 +15,12 @@ function NavLink({ href, children }: NavLinkProps) {
   return (
     <Link
       href={href}
-      className={`rounded-lg px-3 py-2 text-sm transition ${
-        isActive
-          ? "bg-thor-600/20 text-thor-400 font-medium"
-          : "text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200"
-      }`}
+      data-active={isActive || undefined}
+      className="group flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-all data-[active]:bg-thor-600/15 data-[active]:text-thor-400 data-[active]:font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
     >
+      {isActive && (
+        <span className="h-1.5 w-1.5 rounded-full bg-thor-400" />
+      )}
       {children}
     </Link>
   )
@@ -37,7 +37,7 @@ export function SidebarNav({ isAdmin }: { isAdmin: boolean }) {
       <NavLink href="/dashboard/portal">Mi portal</NavLink>
       {isAdmin && (
         <>
-          <div className="my-2 border-t border-zinc-800" />
+          <div className="my-2 border-t border-border" />
           <NavLink href="/admin">Admin panel</NavLink>
         </>
       )}

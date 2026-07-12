@@ -36,20 +36,20 @@ export function Countdown({ targetDate }: { targetDate: string }) {
 
   if (!mounted) {
     return (
-      <div className="flex items-center gap-4">
-        <div className="flex flex-col items-center"><span className="tabular-nums text-5xl font-bold tracking-tight sm:text-6xl">--</span><span className="mt-1 text-xs font-medium tracking-widest opacity-60">DÍAS</span></div>
-        <span className="mb-6 text-3xl font-bold opacity-40">:</span>
-        <div className="flex flex-col items-center"><span className="tabular-nums text-5xl font-bold tracking-tight sm:text-6xl">--</span><span className="mt-1 text-xs font-medium tracking-widest opacity-60">HORAS</span></div>
-        <span className="mb-6 text-3xl font-bold opacity-40">:</span>
-        <div className="flex flex-col items-center"><span className="tabular-nums text-5xl font-bold tracking-tight sm:text-6xl">--</span><span className="mt-1 text-xs font-medium tracking-widest opacity-60">MIN</span></div>
-        <span className="mb-6 text-3xl font-bold opacity-40">:</span>
-        <div className="flex flex-col items-center"><span className="tabular-nums text-5xl font-bold tracking-tight sm:text-6xl">--</span><span className="mt-1 text-xs font-medium tracking-widest opacity-60">SEG</span></div>
+      <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex flex-col items-center"><span className="tabular-nums text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">--</span><span className="mt-1 text-[10px] font-medium tracking-[0.15em] opacity-60">DÍAS</span></div>
+        <span className="mb-5 text-2xl font-bold opacity-30 sm:text-3xl">:</span>
+        <div className="flex flex-col items-center"><span className="tabular-nums text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">--</span><span className="mt-1 text-[10px] font-medium tracking-[0.15em] opacity-60">HORAS</span></div>
+        <span className="mb-5 text-2xl font-bold opacity-30 sm:text-3xl">:</span>
+        <div className="flex flex-col items-center"><span className="tabular-nums text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">--</span><span className="mt-1 text-[10px] font-medium tracking-[0.15em] opacity-60">MIN</span></div>
+        <span className="mb-5 text-2xl font-bold opacity-30 sm:text-3xl">:</span>
+        <div className="flex flex-col items-center"><span className="tabular-nums text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">--</span><span className="mt-1 text-[10px] font-medium tracking-[0.15em] opacity-60">SEG</span></div>
       </div>
     )
   }
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-3 sm:gap-4">
       <TimeBlock value={timeLeft.days} label="DÍAS" />
       <Separator />
       <TimeBlock value={timeLeft.hours} label="HORAS" />
@@ -71,12 +71,12 @@ function TimeBlock({ value, label }: { value: number; label: string }) {
           animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
           exit={{ y: -20, opacity: 0, filter: "blur(4px)" }}
           transition={{ duration: 0.2, ease: "easeOut" }}
-          className="tabular-nums text-5xl font-bold tracking-tight sm:text-6xl"
+          className="tabular-nums text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl"
         >
           {String(value).padStart(2, "0")}
         </motion.span>
       </AnimatePresence>
-      <span className="mt-1 text-xs font-medium tracking-widest opacity-60">
+      <span className="mt-1 text-[10px] font-medium tracking-[0.15em] opacity-60">
         {label}
       </span>
     </div>
@@ -85,6 +85,6 @@ function TimeBlock({ value, label }: { value: number; label: string }) {
 
 function Separator() {
   return (
-    <span className="mb-6 text-3xl font-bold opacity-40">:</span>
+    <span className="mb-5 text-2xl font-bold opacity-30 sm:text-3xl">:</span>
   )
 }

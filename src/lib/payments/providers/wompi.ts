@@ -45,10 +45,14 @@ export class WompiProvider implements PaymentProvider {
 
   verifyWebhookSignature(body: string, signature: string, config: PaymentProviderConfig): boolean {
     const integrityKey = config.integrityKey ?? config.privateKey
+    const parsed = JSON.parse(body) as Record<string, unknown>
+    delete parsed.signature
+    const cleanBody = JSON.stringify(parsed)
     const expected = crypto
-      .createHash("sha256")
-      .update(integrityKey + body)
+      .createHmac("sha256", integrityKey)
+      .update(cleanBody)
       .digest("hex")
+    if (expected.length !== signature.length) return false
     return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(signature))
   }
 

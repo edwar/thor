@@ -8,12 +8,12 @@ const estadoLabels: Record<string, string> = {
   RECHAZADA: "Rechazada",
 }
 
-const estadoColors: Record<string, string> = {
-  PENDIENTE: "text-amber-400 border-amber-800",
-  ENVIADA: "text-blue-400 border-blue-800",
-  PAGADA: "text-green-400 border-green-800",
-  VENCIDA: "text-red-400 border-red-800",
-  RECHAZADA: "text-red-400 border-red-800",
+const estadoStyles: Record<string, string> = {
+  PENDIENTE: "border-amber-accent-700 text-amber-accent-400 bg-amber-accent-500/10",
+  ENVIADA: "border-blue-700 text-blue-400 bg-blue-500/10",
+  PAGADA: "border-emerald-700 text-emerald-400 bg-emerald-500/10",
+  VENCIDA: "border-red-700 text-red-400 bg-red-500/10",
+  RECHAZADA: "border-red-700 text-red-400 bg-red-500/10",
 }
 
 export default async function AdminCuentasCobroPage() {
@@ -35,58 +35,63 @@ export default async function AdminCuentasCobroPage() {
     .reduce((sum, c) => sum + Number(c.montoComision), 0)
 
   return (
-    <div className="space-y-6">
+    <div className="mx-auto max-w-6xl space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-zinc-100">Cuentas de cobro</h1>
-        <p className="mt-1 text-zinc-400">
-          Comisiones del 1% sobre sorteos finalizados.
+        <h1 className="text-2xl font-bold">Cuentas de cobro</h1>
+        <p className="mt-1 text-muted-foreground">
+          Comisiones del 1 % sobre sorteos finalizados.
         </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="rounded-xl border border-amber-800 bg-amber-900/10 p-5">
-          <p className="text-sm text-amber-300/70">Pendiente por cobrar</p>
-          <p className="mt-1 text-2xl font-bold text-amber-300">
+        <div className="rounded-xl border border-amber-accent-800/30 bg-amber-accent-900/10 p-5">
+          <p className="text-sm text-amber-accent-300/70">Pendiente por cobrar</p>
+          <p className="mt-1 text-2xl font-bold text-amber-accent-300">
             $ {totalPendiente.toLocaleString("es-CO")}
           </p>
         </div>
-        <div className="rounded-xl border border-green-800 bg-green-900/10 p-5">
-          <p className="text-sm text-green-300/70">Total cobrado</p>
-          <p className="mt-1 text-2xl font-bold text-green-300">
+        <div className="rounded-xl border border-emerald-800/30 bg-emerald-900/10 p-5">
+          <p className="text-sm text-emerald-300/70">Total cobrado</p>
+          <p className="mt-1 text-2xl font-bold text-emerald-300">
             $ {totalCobrado.toLocaleString("es-CO")}
           </p>
         </div>
       </div>
 
-      <div className="overflow-x-auto rounded-xl border border-zinc-800">
+      <div className="overflow-hidden rounded-xl border border-border">
         <table className="w-full text-sm">
-          <thead className="border-b border-zinc-800 bg-zinc-900/80">
-            <tr>
-              <th className="px-4 py-3 text-left font-medium text-zinc-400">Sorteo</th>
-              <th className="px-4 py-3 text-left font-medium text-zinc-400">Sorteador</th>
-              <th className="px-4 py-3 text-right font-medium text-zinc-400">Recaudado</th>
-              <th className="px-4 py-3 text-right font-medium text-zinc-400">Comisión</th>
-              <th className="px-4 py-3 text-left font-medium text-zinc-400">Estado</th>
-              <th className="px-4 py-3 text-left font-medium text-zinc-400">Fecha</th>
+          <thead>
+            <tr className="border-b border-border bg-muted/50">
+              <th className="px-4 py-3.5 text-left font-medium text-muted-foreground">Sorteo</th>
+              <th className="px-4 py-3.5 text-left font-medium text-muted-foreground">Sorteador</th>
+              <th className="px-4 py-3.5 text-right font-medium text-muted-foreground">Recaudado</th>
+              <th className="px-4 py-3.5 text-right font-medium text-muted-foreground">Comisión</th>
+              <th className="px-4 py-3.5 text-left font-medium text-muted-foreground">Estado</th>
+              <th className="px-4 py-3.5 text-left font-medium text-muted-foreground">Fecha</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-zinc-800">
+          <tbody className="divide-y divide-border">
             {cuentas.map((c) => (
-              <tr key={c.id} className="hover:bg-zinc-900/30">
-                <td className="px-4 py-3 text-zinc-200 font-medium">{c.sorteo.titulo}</td>
-                <td className="px-4 py-3 text-zinc-400">{c.sorteador.nombrePublico}</td>
-                <td className="px-4 py-3 text-right text-zinc-300">
+              <tr key={c.id} className="transition-colors hover:bg-muted/30">
+                <td className="px-4 py-3 font-medium">{c.sorteo.titulo}</td>
+                <td className="px-4 py-3 text-muted-foreground">{c.sorteador.nombrePublico}</td>
+                <td className="px-4 py-3 text-right tabular-nums">
                   $ {Number(c.totalRecaudado).toLocaleString("es-CO")}
                 </td>
-                <td className="px-4 py-3 text-right text-zinc-300">
+                <td className="px-4 py-3 text-right tabular-nums">
                   $ {Number(c.montoComision).toLocaleString("es-CO")}
                 </td>
                 <td className="px-4 py-3">
-                  <span className={`rounded border px-2 py-0.5 text-xs font-medium ${estadoColors[c.estadoCuenta]}`}>
+                  <span className={`inline-flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-xs font-medium ${estadoStyles[c.estadoCuenta]}`}>
+                    <span className={`h-1.5 w-1.5 rounded-full ${
+                      c.estadoCuenta === "PENDIENTE" ? "bg-amber-accent-400" :
+                      c.estadoCuenta === "ENVIADA" ? "bg-blue-400" :
+                      c.estadoCuenta === "PAGADA" ? "bg-emerald-400" : "bg-red-400"
+                    }`} />
                     {estadoLabels[c.estadoCuenta]}
                   </span>
                 </td>
-                <td className="px-4 py-3 text-zinc-500">
+                <td className="px-4 py-3 text-muted-foreground">
                   {c.createdAt.toLocaleDateString("es-CO")}
                 </td>
               </tr>
@@ -95,7 +100,7 @@ export default async function AdminCuentasCobroPage() {
         </table>
 
         {cuentas.length === 0 && (
-          <p className="p-6 text-center text-sm text-zinc-500">
+          <p className="p-6 text-center text-sm text-muted-foreground">
             No hay cuentas de cobro registradas.
           </p>
         )}

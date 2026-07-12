@@ -10,6 +10,12 @@
       "type": "remote",
       "url": "https://bindings.mcp.cloudflare.com/mcp",
       "enabled": true
+    },
+    "wompi": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@codespar/mcp-wompi"],
+      "enabled": true
     }
   }
 }
