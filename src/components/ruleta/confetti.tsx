@@ -12,41 +12,54 @@ export function Confetti() {
     if (fired.current) return
     fired.current = true
 
-    // Initial burst
+    // Big central burst
     confetti({
-      particleCount: 120,
-      spread: 140,
-      startVelocity: 35,
-      gravity: 1.0,
-      ticks: 400,
-      origin: { x: 0.5, y: 0.4 },
+      particleCount: 300,
+      spread: 160,
+      startVelocity: 40,
+      gravity: 0.8,
+      ticks: 500,
+      origin: { x: 0.5, y: 0.35 },
       colors: COLORS,
       disableForReducedMotion: true,
     })
 
-    // Side bursts
+    // Extra burst slightly offset
+    setTimeout(() => {
+      confetti({
+        particleCount: 150,
+        spread: 120,
+        startVelocity: 30,
+        gravity: 1.0,
+        ticks: 400,
+        origin: { x: 0.5, y: 0.5 },
+        colors: COLORS,
+      })
+    }, 200)
+
+    // Side bursts — more frequent and more particles
     const sideInterval = setInterval(() => {
       confetti({
-        particleCount: 3,
-        spread: 80,
-        startVelocity: 20,
-        gravity: 1.0,
-        ticks: 300,
+        particleCount: 8,
+        spread: 100,
+        startVelocity: 25,
+        gravity: 0.9,
+        ticks: 350,
         origin: { x: -0.1, y: Math.random() * 0.8 },
         colors: COLORS,
       })
       confetti({
-        particleCount: 3,
-        spread: 80,
-        startVelocity: 20,
-        gravity: 1.0,
-        ticks: 300,
+        particleCount: 8,
+        spread: 100,
+        startVelocity: 25,
+        gravity: 0.9,
+        ticks: 350,
         origin: { x: 1.1, y: Math.random() * 0.8 },
         colors: COLORS,
       })
-    }, 50)
+    }, 30)
 
-    setTimeout(() => clearInterval(sideInterval), 2000)
+    setTimeout(() => clearInterval(sideInterval), 3000)
 
     return () => clearInterval(sideInterval)
   }, [])
