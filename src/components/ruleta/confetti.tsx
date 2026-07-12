@@ -37,29 +37,33 @@ export function Confetti() {
       })
     }, 200)
 
-    // Side bursts — shoot inward from screen edges
+    // Side bursts — shoot across screen from edges
     const sideInterval = setInterval(() => {
       confetti({
-        particleCount: 12,
-        angle: 70,
-        spread: 80,
-        startVelocity: 30,
-        gravity: 0.8,
-        ticks: 400,
-        origin: { x: 0, y: Math.random() * 0.7 + 0.1 },
-        colors: COLORS,
+        particleCount: 20,
+        angle: 60,
+        spread: 70,
+        startVelocity: 45,
+        gravity: 0.6,
+        scalar: 1.5,
+        drift: 1,
+        ticks: 500,
+        origin: { x: 0, y: Math.random() * 0.6 + 0.2 },
+        colors: ["#34d399", "#22d3ee", "#818cf8", "#c084fc"],
       })
       confetti({
-        particleCount: 12,
-        angle: 110,
-        spread: 80,
-        startVelocity: 30,
-        gravity: 0.8,
-        ticks: 400,
-        origin: { x: 1, y: Math.random() * 0.7 + 0.1 },
-        colors: COLORS,
+        particleCount: 20,
+        angle: 120,
+        spread: 70,
+        startVelocity: 45,
+        gravity: 0.6,
+        scalar: 1.5,
+        drift: -1,
+        ticks: 500,
+        origin: { x: 1, y: Math.random() * 0.6 + 0.2 },
+        colors: ["#f472b6", "#fbbf24", "#f87171", "#f97316"],
       })
-    }, 40)
+    }, 60)
 
     setTimeout(() => clearInterval(sideInterval), 3000)
 
