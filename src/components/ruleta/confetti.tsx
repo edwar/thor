@@ -18,19 +18,21 @@ export function Confetti() {
       ticks: 500, origin: { x: 0.5, y: 0.3 }, colors: COLORS, disableForReducedMotion: true,
     })
 
-    // Side ráfagas — continuous cannons
+    // Side ráfagas — shoot inward from just inside screen edges
     const cannons = setInterval(() => {
       confetti({
-        particleCount: 20, angle: 75, spread: 70, startVelocity: 30, gravity: 0.7,
-        scalar: 1.5, drift: 0.5, ticks: 500, origin: { x: 0, y: Math.random() * 0.5 + 0.2 },
+        particleCount: 30, angle: 65, spread: 80, startVelocity: 35, gravity: 0.6,
+        scalar: 1.6, drift: 0.8, ticks: 600,
+        origin: { x: 0.05, y: Math.random() * 0.4 + 0.3 },
         colors: ["#34d399", "#22d3ee", "#818cf8", "#c084fc"],
       })
       confetti({
-        particleCount: 20, angle: 105, spread: 70, startVelocity: 30, gravity: 0.7,
-        scalar: 1.5, drift: -0.5, ticks: 500, origin: { x: 1, y: Math.random() * 0.5 + 0.2 },
+        particleCount: 30, angle: 115, spread: 80, startVelocity: 35, gravity: 0.6,
+        scalar: 1.6, drift: -0.8, ticks: 600,
+        origin: { x: 0.95, y: Math.random() * 0.4 + 0.3 },
         colors: ["#f472b6", "#fbbf24", "#f87171", "#f97316"],
       })
-    }, 80)
+    }, 60)
 
     setTimeout(() => clearInterval(cannons), 3000)
 
