@@ -7,10 +7,10 @@ import { Confetti } from "./confetti"
 import type { Props } from "./types"
 
 const VISIBLE = 7
-const ITEM_H = 68
+const ITEM_H = 50 // Increased from 44 to 50 for a more spacious, premium feel
 const HEIGHT = VISIBLE * ITEM_H
-const ANGLE_STEP = 18
-const RADIUS = 170
+const ANGLE_STEP = 24 
+const RADIUS = 119 // Recalculated for ITEM_H = 50 (circumference 750px / 2pi)
 
 export function RouletteWheel({
   participants,
@@ -50,28 +50,30 @@ export function RouletteWheel({
   const fullPassAngle = participants.length * ANGLE_STEP
   const initialRotationX = winnerIndex !== null ? targetRotationX + fullPassAngle * 2.5 : 0
 
-  // Direct DOM updating function for 3D styling (smooth opacity fade)
+  // Direct DOM updating function for 3D styling (opacity/visibility)
   const updateWheel3DEffects = useCallback((rotX: number) => {
     if (!itemsRef.current) return
-
-    const visibleWindow = 85
-
+    
+    // We only show items facing the camera (within a 90 degree window)
+    const visibleWindow = 90 
+    
     itemsRef.current.forEach((el, idx) => {
       if (!el) return
-
+      
       const itemAngle = idx * ANGLE_STEP
       const relativeAngle = itemAngle + rotX
       const absAngle = Math.abs(relativeAngle)
-
+      
       if (absAngle < visibleWindow) {
         const rad = (relativeAngle * Math.PI) / 180
         const cosVal = Math.cos(rad)
-
-        const opacity = Math.pow(Math.max(0, cosVal), 1.4)
-        el.style.opacity = String(opacity)
+        
+        // Fading out opacity toward the top/bottom edges
+        const opacity = Math.pow(cosVal, 1.6)
+        
+        el.style.opacity = `${opacity}`
         el.style.visibility = "visible"
       } else {
-        el.style.opacity = "0"
         el.style.visibility = "hidden"
       }
     })
@@ -195,19 +197,23 @@ export function RouletteWheel({
                   ref={(el) => {
                     itemsRef.current[i] = el
                   }}
-                  className="absolute inset-0 flex items-center justify-between px-8"
+                  className={`absolute inset-0 flex items-center justify-between px-8 transition-all duration-500 translate-y-[-2px] ${
+                    isFinished && isWinnerPanel
+                      ? ""
+                      : isFinished
+                      ? "opacity-25"
+                      : ""
+                  }`}
                   style={{
                     height: ITEM_H,
                     transform: `rotateX(${itemAngle}deg) translateZ(${RADIUS}px)`,
                     backfaceVisibility: "hidden",
-                    opacity: 0,
-                    visibility: "hidden",
                   }}
                 >
                   <div
                     className="flex w-full items-center justify-between origin-center"
                     style={{
-                      transform: isFinished && isWinnerPanel ? "scale(1.08)" : "scale(1)",
+                      transform: isFinished && isWinnerPanel ? "scale(1.05)" : "scale(1)",
                       transition: "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)",
                     }}
                   >
@@ -233,9 +239,9 @@ export function RouletteWheel({
           </div>
         </div>
 
-        {/* Outer overlay fades — smooth cylinder curvature mask */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b from-zinc-950 via-zinc-950/80 to-transparent" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-24 bg-gradient-to-t from-zinc-950 via-zinc-950/80 to-transparent" />
+        {/* Outer overlay fades — cylinder styling */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-16 bg-gradient-to-b from-zinc-950 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t from-zinc-950 to-transparent" />
 
         {/* Central Selection Highlight Bracket (iOS DatePicker style) */}
         <div
