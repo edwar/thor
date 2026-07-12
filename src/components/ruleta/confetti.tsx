@@ -37,27 +37,29 @@ export function Confetti() {
       })
     }, 200)
 
-    // Side bursts — more frequent and more particles
+    // Side bursts — shoot inward from screen edges
     const sideInterval = setInterval(() => {
       confetti({
-        particleCount: 8,
-        spread: 100,
-        startVelocity: 25,
-        gravity: 0.9,
-        ticks: 350,
-        origin: { x: -0.1, y: Math.random() * 0.8 },
+        particleCount: 12,
+        angle: 70,
+        spread: 80,
+        startVelocity: 30,
+        gravity: 0.8,
+        ticks: 400,
+        origin: { x: 0, y: Math.random() * 0.7 + 0.1 },
         colors: COLORS,
       })
       confetti({
-        particleCount: 8,
-        spread: 100,
-        startVelocity: 25,
-        gravity: 0.9,
-        ticks: 350,
-        origin: { x: 1.1, y: Math.random() * 0.8 },
+        particleCount: 12,
+        angle: 110,
+        spread: 80,
+        startVelocity: 30,
+        gravity: 0.8,
+        ticks: 400,
+        origin: { x: 1, y: Math.random() * 0.7 + 0.1 },
         colors: COLORS,
       })
-    }, 30)
+    }, 40)
 
     setTimeout(() => clearInterval(sideInterval), 3000)
 
