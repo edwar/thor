@@ -1,68 +1,66 @@
 "use client"
 
-import { useEffect, useRef } from "react"
-import { motion, useAnimation } from "framer-motion"
+import { useRef } from "react"
+import { motion } from "framer-motion"
 
-const COLORS = ["#818cf8", "#c084fc", "#f472b6", "#34d399", "#fbbf24", "#f87171", "#22d3ee"]
-const COUNT = 60
+const COLORS = ["#818cf8", "#c084fc", "#f472b6", "#34d399", "#fbbf24", "#f87171", "#22d3ee", "#f97316"]
+const COUNT = 100
 
-function randomIn(min: number, max: number) {
-  return Math.random() * (max - min) + min
-}
-
-interface Particle {
-  id: number
-  x: number
-  delay: number
-  duration: number
-  rotation: number
-  color: string
-  size: number
-  drift: number
-}
-
-function generateParticles(): Particle[] {
-  return Array.from({ length: COUNT }, (_, i) => ({
-    id: i,
-    x: randomIn(0, 100),
-    delay: randomIn(0, 0.8),
-    duration: randomIn(1.2, 2.8),
-    rotation: randomIn(-360, 360),
-    color: COLORS[Math.floor(Math.random() * COLORS.length)],
-    size: randomIn(4, 10),
-    drift: randomIn(-30, 30),
-  }))
-}
+const SHAPES = ["square", "circle", "line"] as const
 
 export function Confetti() {
-  const particles = useRef(generateParticles()).current
+  const particles = useRef(
+    Array.from({ length: COUNT }, (_, i) => {
+      const angle = Math.random() * Math.PI * 2
+      const velocity = 200 + Math.random() * 500
+      const vy = Math.sin(angle) * velocity
+      const vx = Math.cos(angle) * velocity
+      return {
+        id: i,
+        vx,
+        vy,
+        delay: Math.random() * 0.3,
+        rotation: Math.random() * 720 - 360,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        w: 4 + Math.random() * 8,
+        h: 4 + Math.random() * 6,
+        shape: SHAPES[Math.floor(Math.random() * SHAPES.length)],
+        gravity: 300 + Math.random() * 400,
+      }
+    }),
+  ).current
 
   return (
     <div className="pointer-events-none absolute inset-0 z-50 overflow-hidden">
       {particles.map((p) => (
         <motion.div
           key={p.id}
-          className="absolute rounded-sm"
+          className="absolute"
           style={{
-            left: `${p.x}%`,
-            top: -10,
-            width: p.size,
-            height: p.size * 0.6,
+            left: "50%",
+            top: "50%",
+            width: p.w,
+            height: p.h,
             backgroundColor: p.color,
-            borderRadius: 1,
+            borderRadius: p.shape === "circle" ? "50%" : p.shape === "line" ? 0 : 1,
+            x: "-50%",
+            y: "-50%",
           }}
-          initial={{ y: -20, rotate: 0, opacity: 1 }}
+          initial={{ x: "-50%", y: "-50%", rotate: 0, opacity: 1 }}
           animate={{
-            y: ["0vh", "100vh"],
+            x: [`-50%`, `calc(-50% + ${p.vx * 0.6}px)`, `calc(-50% + ${p.vx * 1.5}px)`],
+            y: [
+              "-50%",
+              `calc(-50% + ${p.vy * 0.6 - 0.5 * p.gravity * 0.3 * 0.3}px)`,
+              `calc(-50% + ${p.vy * 1.5 - 0.5 * p.gravity * 1.5 * 1.5}px)`,
+            ],
             rotate: [0, p.rotation * 2, p.rotation],
             opacity: [1, 1, 0],
-            x: [0, p.drift, p.drift * 1.5],
           }}
           transition={{
-            duration: p.duration,
+            duration: 1.5 + Math.random() * 0.5,
             delay: p.delay,
-            ease: [0.25, 0.46, 0.45, 0.94],
-            repeat: 0,
+            ease: "linear",
           }}
         />
       ))}
