@@ -31,7 +31,22 @@ export function RuletaClientWrapper({
 
   return (
     <div className="mt-8 space-y-6">
-      {/* Winner info — hidden until animation finishes */}
+      {/* Heading during spin — above the wheel */}
+      {!showResult && (
+        <p className="text-sm text-muted-foreground animate-pulse">Girando...</p>
+      )}
+
+      {/* Wheel — always visible */}
+      <div className="flex justify-center">
+        <ClientRouletteWheel
+          participants={participants}
+          winnerIndex={winnerIndex}
+          spinning={false}
+          onAnimatingChange={handleAnimatingChange}
+        />
+      </div>
+
+      {/* Winner info — below the wheel, hidden until animation finishes */}
       {showResult && winnerIndex !== null && (
         <div className="rounded-xl border border-emerald-800/30 bg-emerald-900/15 p-6">
           <p className="text-sm text-muted-foreground">Ganador</p>
@@ -40,7 +55,7 @@ export function RuletaClientWrapper({
         </div>
       )}
 
-      {/* Verification info */}
+      {/* Verification info — below the winner */}
       {showResult && (
         <div className="rounded-xl border border-border bg-card p-6 text-left">
           <p className="text-sm font-medium text-muted-foreground">Verificación del sorteo</p>
@@ -65,20 +80,6 @@ export function RuletaClientWrapper({
           </p>
         </div>
       )}
-
-      {/* Always-visible heading during spin */}
-      {!showResult && (
-        <p className="text-sm text-muted-foreground animate-pulse">Girando...</p>
-      )}
-
-      <div className="flex justify-center">
-        <ClientRouletteWheel
-          participants={participants}
-          winnerIndex={winnerIndex}
-          spinning={false}
-          onAnimatingChange={handleAnimatingChange}
-        />
-      </div>
     </div>
   )
 }
