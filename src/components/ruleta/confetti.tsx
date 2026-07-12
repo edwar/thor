@@ -14,7 +14,7 @@ export function Confetti() {
 
     // Center — above the wheel
     confetti({
-      particleCount: 250,
+      particleCount: 500,
       spread: 140,
       startVelocity: 35,
       gravity: 0.9,
@@ -26,7 +26,7 @@ export function Confetti() {
 
     // Left side — shoots toward center
     confetti({
-      particleCount: 180,
+      particleCount: 360,
       angle: 75,
       spread: 80,
       startVelocity: 30,
@@ -39,7 +39,7 @@ export function Confetti() {
 
     // Right side — shoots toward center
     confetti({
-      particleCount: 180,
+      particleCount: 360,
       angle: 105,
       spread: 80,
       startVelocity: 30,
