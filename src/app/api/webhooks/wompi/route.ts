@@ -89,7 +89,6 @@ export async function POST(request: Request) {
         data: {
           estado: "APROBADA",
           metodoPago: parsed.method,
-          referenciaExterna: parsed.externalId || ref,
           firmaWebhook: signature,
           webhookRecibidoAt: new Date(),
           rawPayload: body,
@@ -127,7 +126,7 @@ export async function POST(request: Request) {
         tituloSorteo: sorteo.titulo,
         puestos,
         premioDescripcion,
-        fechaSorteo: sorteo.fechaSorteo.toLocaleDateString("es-CO", {
+        fechaSorteo: sorteo.fechaSorteo.toLocaleString("es-CO", {
           dateStyle: "full",
           timeStyle: "short",
         }),
