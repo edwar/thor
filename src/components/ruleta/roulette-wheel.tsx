@@ -23,7 +23,6 @@ export function RouletteWheel({
   const [finished, setFinished] = useState(false)
   
   const wheelStripRef = useRef<HTMLDivElement>(null)
-  const itemsRef = useRef<(HTMLDivElement | null)[]>([])
   const animationRef = useRef<gsap.core.Timeline | null>(null)
 
   // We repeat participants list to make a long scrolling strip for the spin animation
@@ -52,13 +51,15 @@ export function RouletteWheel({
 
   // Direct DOM updating function for 3D styling (opacity/visibility)
   const updateWheel3DEffects = useCallback((rotX: number) => {
-    if (!itemsRef.current) return
+    if (!wheelStripRef.current) return
     
+    const children = wheelStripRef.current.children
     // We only show items facing the camera (within a 90 degree window)
     const visibleWindow = 90 
     
-    itemsRef.current.forEach((el, idx) => {
-      if (!el) return
+    for (let idx = 0; idx < children.length; idx++) {
+      const el = children[idx] as HTMLElement
+      if (!el) continue
       
       const itemAngle = idx * ANGLE_STEP
       const relativeAngle = itemAngle + rotX
@@ -74,10 +75,31 @@ export function RouletteWheel({
         el.style.opacity = `${opacity}`
         el.style.visibility = "visible"
       } else {
+        el.style.opacity = "0"
         el.style.visibility = "hidden"
       }
-    })
+    }
   }, [])
+
+  const onSpinEndRef = useRef(onSpinEnd)
+  const onAnimatingChangeRef = useRef(onAnimatingChange)
+
+  useEffect(() => {
+    onSpinEndRef.current = onSpinEnd
+  }, [onSpinEnd])
+
+  useEffect(() => {
+    onAnimatingChangeRef.current = onAnimatingChange
+  }, [onAnimatingChange])
+
+  // Run initial 3D visibility layout updates on mount and on resets
+  useEffect(() => {
+    const initialRot = winnerIndex !== null ? initialRotationX : 0
+    if (wheelStripRef.current) {
+      gsap.set(wheelStripRef.current, { rotateX: initialRot })
+    }
+    updateWheel3DEffects(initialRot)
+  }, [winnerIndex, initialRotationX, updateWheel3DEffects])
 
   useEffect(() => {
     if (winnerIndex === null) {
@@ -89,7 +111,7 @@ export function RouletteWheel({
     const timer = setTimeout(() => {
       setFinished(false)
       setAnimating(true)
-      onAnimatingChange?.(true)
+      onAnimatingChangeRef.current?.(true)
       playSpinStart()
 
       // Set initial rotation
@@ -118,8 +140,8 @@ export function RouletteWheel({
           }
           setFinished(true)
           setAnimating(false)
-          onAnimatingChange?.(false)
-          onSpinEnd?.()
+          onAnimatingChangeRef.current?.(false)
+          onSpinEndRef.current?.()
           playWin()
         }
       })
@@ -151,7 +173,7 @@ export function RouletteWheel({
         animationRef.current.kill()
       }
     }
-  }, [winnerIndex, targetRotationX, initialRotationX, onSpinEnd, onAnimatingChange, updateWheel3DEffects])
+  }, [winnerIndex, targetRotationX, initialRotationX, updateWheel3DEffects])
 
   const isFinished = winnerIndex !== null && !animating && finished
 
@@ -184,7 +206,6 @@ export function RouletteWheel({
             style={{
               height: ITEM_H,
               transformStyle: "preserve-3d",
-              transform: `rotateX(${winnerIndex !== null ? initialRotationX : 0}deg)`,
             }}
           >
             {panelList.map((p, i) => {
@@ -194,14 +215,11 @@ export function RouletteWheel({
               return (
                 <div
                   key={p.index}
-                  ref={(el) => {
-                    itemsRef.current[i] = el
-                  }}
-                  className={`absolute inset-0 flex items-center justify-between px-8 transition-all duration-500 translate-y-[-2px] ${
+                  className={`absolute inset-0 flex items-center justify-between px-8 translate-y-[-2px] ${
                     isFinished && isWinnerPanel
                       ? ""
                       : isFinished
-                      ? "opacity-25"
+                      ? "opacity-25 transition-opacity duration-700 ease-out"
                       : ""
                   }`}
                   style={{
