@@ -157,11 +157,18 @@ export function RouletteWheel({
 
   return (
     <div className="relative mx-auto w-full max-w-sm">
+      {/* Confetti — outside the wheel container so it's not clipped */}
+      {isFinished && (
+        <div className="pointer-events-none absolute inset-0 -top-32 -bottom-32 -left-16 -right-16 z-50">
+          <Confetti />
+        </div>
+      )}
+
       <div
         className="relative overflow-hidden rounded-[24px] border border-zinc-800/60 bg-zinc-950 shadow-2xl"
         style={{
           height: HEIGHT,
-          perspective: "1000px", // Enables standard CSS 3D perspective
+          perspective: "1000px",
         }}
       >
         {/* The 3D cylindrical container */}
@@ -203,12 +210,11 @@ export function RouletteWheel({
                     backfaceVisibility: "hidden",
                   }}
                 >
-                  {/* Flat inner wrapper that scales symmetrically from the center, avoiding 3D perspective shifts */}
                   <div
                     className="flex w-full items-center justify-between origin-center"
                     style={{
                       transform: isFinished && isWinnerPanel ? "scale(1.05)" : "scale(1)",
-                      transition: "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)", // Premium, ultra-smooth ease-out curve
+                      transition: "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)",
                     }}
                   >
                     <span className={`text-[15px] font-semibold truncate tracking-wide transition-all duration-500 ${
@@ -233,7 +239,7 @@ export function RouletteWheel({
           </div>
         </div>
 
-        {/* Outer overlay fades — cylinder styling (makes it look like a wheel receding into top/bottom) */}
+        {/* Outer overlay fades — cylinder styling */}
         <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-16 bg-gradient-to-b from-zinc-950 to-transparent" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t from-zinc-950 to-transparent" />
 
@@ -249,9 +255,6 @@ export function RouletteWheel({
             height: ITEM_H,
           }}
         />
-
-        {/* Confetti celebration! */}
-        {isFinished && <Confetti />}
       </div>
     </div>
   )
