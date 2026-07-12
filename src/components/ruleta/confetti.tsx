@@ -46,7 +46,7 @@ export function Confetti() {
 
     setTimeout(() => clearInterval(cannons), 4000)
 
-    return () => clearInterval(sideInterval)
+    return () => clearInterval(cannons)
   }, [])
 
   return null
