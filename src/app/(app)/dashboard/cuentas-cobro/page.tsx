@@ -32,15 +32,15 @@ export default async function CuentasCobroPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-zinc-100">Cuentas de cobro</h1>
+        <h1 className="text-2xl font-bold text-zinc-100">Comisiones</h1>
         <p className="mt-1 text-zinc-400">
-          Comisión del 1% sobre sorteos finalizados.
+          Comisión del 1% sobre sorteos finalizados. Este es el monto que debes pagar a Thor.
         </p>
       </div>
 
       {cuentas.length === 0 ? (
         <div className="rounded-xl border border-dashed border-zinc-700 p-12 text-center">
-          <p className="text-zinc-400">No tienes cuentas de cobro pendientes.</p>
+          <p className="text-zinc-400">No tienes comisiones pendientes.</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -80,7 +80,7 @@ export default async function CuentasCobroPage() {
                       type="submit"
                       className="rounded-lg bg-thor-600 px-3 py-1.5 text-sm text-white transition hover:bg-thor-500"
                     >
-                      Enviar
+                      Descargar factura
                     </button>
                   </form>
                 )}

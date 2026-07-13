@@ -32,7 +32,7 @@ export function SidebarNav({ isAdmin }: { isAdmin: boolean }) {
       <NavLink href="/dashboard">Inicio</NavLink>
       <NavLink href="/dashboard/productos">Productos</NavLink>
       <NavLink href="/dashboard/sorteos">Mis sorteos</NavLink>
-      <NavLink href="/dashboard/cuentas-cobro">Cuentas de cobro</NavLink>
+      <NavLink href="/dashboard/cuentas-cobro">Comisiones</NavLink>
       <NavLink href="/dashboard/pasarela">Pasarela de pago</NavLink>
       <NavLink href="/dashboard/portal">Mi portal</NavLink>
       {isAdmin && (

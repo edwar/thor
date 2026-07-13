@@ -16,7 +16,7 @@ export async function sendEmail(params: {
   }
 
   return resend.emails.send({
-    from: "Thor <sorteos@thor.app>",
+    from: "Thor <edwaramayadiaz@gmail.com>",
     to: params.to,
     subject: params.subject,
     html: params.html,

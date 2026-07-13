@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma"
 import { auth } from "@/lib/auth"
 import { RuletaClientWrapper } from "@/components/ruleta/ruleta-client-wrapper"
 import { ClientRouletteWheel } from "@/components/ruleta/client-roulette"
-import { cerrarVenta, ejecutarSorteoFormAction } from "@/lib/actions/sorteo-live"
+import { cerrarVenta, cerrarSorteoYGenerarCuenta } from "@/lib/actions/sorteo-live"
 import { Countdown } from "@/components/sorteos/countdown"
 
 export default async function RuletaPage(props: { params: Promise<{ slug: string }> }) {
@@ -98,7 +98,7 @@ export default async function RuletaPage(props: { params: Promise<{ slug: string
             </div>
 
             {isOwner && (
-              <form action={ejecutarSorteoFormAction.bind(null, sorteo.id)}>
+              <form action={cerrarSorteoYGenerarCuenta.bind(null, sorteo.id)}>
                 <button
                   type="submit"
                   className="rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 px-10 py-4 text-lg font-bold text-white shadow-lg transition-all hover:from-emerald-500 hover:to-emerald-400 active:scale-[0.97]"

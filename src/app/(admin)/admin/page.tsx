@@ -4,7 +4,7 @@ import { Users, Gift, Ticket, DollarSign, FileText, Percent } from "lucide-react
 export default async function AdminDashboardPage() {
   const [
     totalSorteos,
-    totalSorteadors,
+    totalSorteadores,
     totalParticipantes,
     totalRecaudo,
     cuentasPendientes,
@@ -47,8 +47,8 @@ export default async function AdminDashboardPage() {
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         <StatCard
           icon={<Users className="h-5 w-5 text-thor-400" />}
-          label="Sorteadors"
-          value={totalSorteadors}
+          label="Sorteadores"
+          value={totalSorteadores}
         />
         <StatCard
           icon={<Gift className="h-5 w-5 text-thor-400" />}

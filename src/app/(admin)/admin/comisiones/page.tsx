@@ -1,4 +1,8 @@
+import { redirect } from "next/navigation"
+import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { marcarComisionPagada, marcarComisionPendiente } from "@/lib/actions/admin"
+import { enviarCuentaCobro } from "@/lib/actions/cuenta-cobro"
 
 const estadoLabels: Record<string, string> = {
   PENDIENTE: "Pendiente",
@@ -16,28 +20,31 @@ const estadoStyles: Record<string, string> = {
   RECHAZADA: "border-red-700 text-red-400 bg-red-500/10",
 }
 
-export default async function AdminCuentasCobroPage() {
-  const cuentas = await prisma.cuentaCobro.findMany({
+export default async function AdminComisionesPage() {
+  const session = await auth()
+  if (!session?.user) redirect("/signin")
+  if (session.user.role !== "ADMIN") redirect("/dashboard")
+
+  const comisiones = await prisma.cuentaCobro.findMany({
     include: {
-      sorteo: true,
-      sorteador: true,
+      sorteo: { select: { titulo: true } },
+      sorteador: { select: { nombrePublico: true, slug: true } },
     },
     orderBy: { createdAt: "desc" },
-    take: 100,
   })
 
-  const totalPendiente = cuentas
-    .filter((c) => c.estadoCuenta === "PENDIENTE" || c.estadoCuenta === "ENVIADA")
+  const totalPendiente = comisiones
+    .filter((c) => c.estadoCuenta !== "PAGADA")
     .reduce((sum, c) => sum + Number(c.montoComision), 0)
 
-  const totalCobrado = cuentas
+  const totalCobrado = comisiones
     .filter((c) => c.estadoCuenta === "PAGADA")
     .reduce((sum, c) => sum + Number(c.montoComision), 0)
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6">
+    <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Cuentas de cobro</h1>
+        <h1 className="text-2xl font-bold tracking-tight">Cobrar comisiones</h1>
         <p className="mt-1 text-muted-foreground">
           Comisiones del 1 % sobre sorteos finalizados.
         </p>
@@ -68,17 +75,18 @@ export default async function AdminCuentasCobroPage() {
               <th className="px-4 py-3.5 text-right font-medium text-muted-foreground">Comisión</th>
               <th className="px-4 py-3.5 text-left font-medium text-muted-foreground">Estado</th>
               <th className="px-4 py-3.5 text-left font-medium text-muted-foreground">Fecha</th>
+              <th className="px-4 py-3.5 text-center font-medium text-muted-foreground">Acción</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
-            {cuentas.map((c) => (
+            {comisiones.map((c) => (
               <tr key={c.id} className="transition-colors hover:bg-muted/30">
                 <td className="px-4 py-3 font-medium">{c.sorteo.titulo}</td>
                 <td className="px-4 py-3 text-muted-foreground">{c.sorteador.nombrePublico}</td>
                 <td className="px-4 py-3 text-right tabular-nums">
                   $ {Number(c.totalRecaudado).toLocaleString("es-CO")}
                 </td>
-                <td className="px-4 py-3 text-right tabular-nums">
+                <td className="px-4 py-3 text-right tabular-nums font-medium text-foreground">
                   $ {Number(c.montoComision).toLocaleString("es-CO")}
                 </td>
                 <td className="px-4 py-3">
@@ -94,14 +102,47 @@ export default async function AdminCuentasCobroPage() {
                 <td className="px-4 py-3 text-muted-foreground">
                   {c.createdAt.toLocaleDateString("es-CO")}
                 </td>
+                <td className="px-4 py-3">
+                  <div className="flex items-center justify-center gap-1.5">
+                    {c.estadoCuenta !== "PAGADA" && (
+                      <form action={enviarCuentaCobro.bind(null, c.id)}>
+                        <button
+                          type="submit"
+                          className="rounded-lg bg-thor-600 px-3 py-1.5 text-xs text-white transition hover:bg-thor-500"
+                        >
+                          Enviar correo
+                        </button>
+                      </form>
+                    )}
+                    {c.estadoCuenta !== "PAGADA" ? (
+                      <form action={marcarComisionPagada.bind(null, c.id)}>
+                        <button
+                          type="submit"
+                          className="rounded-lg bg-green-600 px-3 py-1.5 text-xs text-white transition hover:bg-green-500"
+                        >
+                          Pagada
+                        </button>
+                      </form>
+                    ) : (
+                      <form action={marcarComisionPendiente.bind(null, c.id)}>
+                        <button
+                          type="submit"
+                          className="rounded-lg bg-zinc-700 px-3 py-1.5 text-xs text-zinc-300 transition hover:bg-zinc-600"
+                        >
+                          Reabrir
+                        </button>
+                      </form>
+                    )}
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
 
-        {cuentas.length === 0 && (
+        {comisiones.length === 0 && (
           <p className="p-6 text-center text-sm text-muted-foreground">
-            No hay cuentas de cobro registradas.
+            No hay comisiones registradas.
           </p>
         )}
       </div>

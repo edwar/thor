@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { publishSorteo, deleteSorteo } from "@/lib/actions/sorteos"
-import { cerrarVenta, ejecutarSorteoFormAction } from "@/lib/actions/sorteo-live"
+import { cerrarVenta, cerrarSorteoYGenerarCuenta } from "@/lib/actions/sorteo-live"
 
 const estadoLabels: Record<string, string> = {
   BORRADOR: "Borrador",
@@ -115,7 +115,7 @@ export default async function SorteoDetailPage(props: { params: Promise<{ id: st
               >
                 Ruleta en vivo
               </Link>
-              <form action={ejecutarSorteoFormAction.bind(null, sorteo.id)}>
+              <form action={cerrarSorteoYGenerarCuenta.bind(null, sorteo.id)}>
                 <button
                   type="submit"
                   className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-green-500"
