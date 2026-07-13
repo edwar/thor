@@ -30,10 +30,11 @@ export async function enviarCuentaCobro(id: string) {
   })
 
   const emailDestino = cuenta.sorteador.user.email
+  console.log("emailDestino", emailDestino)
   if (emailDestino) {
     await sendEmail({
       to: emailDestino,
-      subject: `💰 Cuenta de cobro Thor — ${cuenta.sorteo.titulo}`,
+      subject: `💰 Factura de comisión Thor — ${cuenta.sorteo.titulo}`,
       html,
     })
   }

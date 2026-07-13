@@ -107,7 +107,7 @@ export function renderCuentaCobroHTML(params: {
   <div class="container">
     <div class="header">
       <h1>Thor</h1>
-      <h2>Cuenta de Cobro</h2>
+      <h2>Factura de Comisión</h2>
     </div>
     <div class="ref">Ref: ${params.referencia}</div>
 

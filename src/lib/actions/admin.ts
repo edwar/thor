@@ -1,8 +1,8 @@
 "use server"
 
+import { revalidatePath } from "next/cache"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
-import { env } from "@/lib/env"
 
 export async function promoteToAdmin(secret: string) {
   const adminSecret = process.env.ADMIN_SECRET_KEY
@@ -25,4 +25,39 @@ export async function isAdminUser(): Promise<boolean> {
   const session = await auth()
   if (!session?.user) return false
   return session.user.role === "ADMIN"
+}
+
+async function assertAdmin() {
+  const session = await auth()
+  if (!session?.user || session.user.role !== "ADMIN") {
+    throw new Error("No autorizado")
+  }
+}
+
+export async function marcarComisionPagada(id: string) {
+  await assertAdmin()
+
+  await prisma.cuentaCobro.update({
+    where: { id },
+    data: {
+      estadoCuenta: "PAGADA",
+      pagadaAt: new Date(),
+    },
+  })
+
+  revalidatePath("/admin/comisiones")
+}
+
+export async function marcarComisionPendiente(id: string) {
+  await assertAdmin()
+
+  await prisma.cuentaCobro.update({
+    where: { id },
+    data: {
+      estadoCuenta: "PENDIENTE",
+      pagadaAt: null,
+    },
+  })
+
+  revalidatePath("/admin/comisiones")
 }

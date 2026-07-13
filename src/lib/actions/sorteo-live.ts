@@ -56,8 +56,16 @@ export async function ejecutarSorteoFormAction(id: string) {
 }
 
 export async function cerrarSorteoYGenerarCuenta(id: string) {
-  const result = await ejecutarSorteo(id)
+  const sorteo = await prisma.sorteo.findUnique({
+    where: { id },
+    select: { slug: true },
+  })
+  await ejecutarSorteo(id)
   await generarCuentaCobro(id)
   revalidatePath("/dashboard/cuentas-cobro")
-  return result
+  revalidatePath(`/dashboard/sorteos/${id}`)
+  if (sorteo) {
+    revalidatePath(`/s/${sorteo.slug}`)
+    revalidatePath(`/s/${sorteo.slug}/ruleta`)
+  }
 }

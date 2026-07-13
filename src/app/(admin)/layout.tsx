@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { auth, signOut } from "@/lib/auth"
 import { redirect } from "next/navigation"
+import { AdminNavLink } from "@/components/admin-nav-link"
 
 export default async function AdminLayout({
   children,
@@ -25,10 +26,10 @@ export default async function AdminLayout({
         </Link>
 
         <nav className="flex flex-1 flex-col gap-1">
-          <NavLink href="/admin">Dashboard</NavLink>
-          <NavLink href="/admin/sorteos">Sorteos</NavLink>
-          <NavLink href="/admin/cuentas-cobro">Cuentas de cobro</NavLink>
-          <NavLink href="/admin/sorteadors">Sorteadors</NavLink>
+          <AdminNavLink href="/admin">Dashboard</AdminNavLink>
+          <AdminNavLink href="/admin/sorteos">Sorteos</AdminNavLink>
+          <AdminNavLink href="/admin/comisiones">Comisiones</AdminNavLink>
+          <AdminNavLink href="/admin/sorteadors">Sorteadores</AdminNavLink>
         </nav>
 
         <div className="border-t border-border pt-4">
@@ -62,13 +63,4 @@ export default async function AdminLayout({
   )
 }
 
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <Link
-      href={href}
-      className="rounded-lg px-3 py-2 text-sm text-muted-foreground transition hover:bg-muted hover:text-foreground"
-    >
-      {children}
-    </Link>
-  )
-}
+

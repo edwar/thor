@@ -53,7 +53,7 @@ export default async function CuentaCobroDetailPage(props: { params: Promise<{ i
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-bold text-zinc-100">Cuenta de cobro</h1>
+            <h1 className="text-2xl font-bold text-zinc-100">Comisión</h1>
             <span className={`rounded-full px-3 py-0.5 text-xs font-medium ${estadoColors[cuenta.estadoCuenta].split(" ")[0]} ${estadoColors[cuenta.estadoCuenta].split(" ")[1]}`}>
               {estadoLabels[cuenta.estadoCuenta]}
             </span>
@@ -70,17 +70,7 @@ export default async function CuentaCobroDetailPage(props: { params: Promise<{ i
                 type="submit"
                 className="rounded-lg bg-thor-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-thor-500"
               >
-                Enviar al sorteador
-              </button>
-            </form>
-          )}
-          {cuenta.estadoCuenta === "ENVIADA" && (
-            <form action={marcarCuentaPagada.bind(null, cuenta.id)}>
-              <button
-                type="submit"
-                className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-green-500"
-              >
-                Marcar como pagada
+                Enviar factura por email
               </button>
             </form>
           )}

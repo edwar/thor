@@ -14,7 +14,7 @@ export default async function AdminSorteadorsPage() {
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Sorteadors</h1>
+        <h1 className="text-2xl font-bold">Sorteadores</h1>
         <p className="mt-1 text-muted-foreground">
           Todos los organizadores registrados en la plataforma.
         </p>
