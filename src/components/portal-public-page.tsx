@@ -46,7 +46,7 @@ export async function PortalPublicPage({ slug }: Props) {
         <div className="h-2 w-full bg-gradient-to-r from-thor-600 to-thor-400" />
       )}
 
-      <div className="relative z-10" style={{ color: tc }}>
+      <div className="relative z-10 text-foreground" style={{ color: withBanner ? tc : undefined }}>
         <header className="flex items-center gap-4 px-6 py-8 sm:px-10">
           {perfil.logoUrl ? (
             <img
@@ -65,12 +65,12 @@ export async function PortalPublicPage({ slug }: Props) {
           <div>
             <h1 className="text-3xl font-bold tracking-tight">{perfil.nombrePublico}</h1>
             {perfil.descripcion && (
-              <p className="mt-1 opacity-70 max-w-xl">{perfil.descripcion}</p>
+              <p className="mt-1 max-w-xl text-muted-foreground">{perfil.descripcion}</p>
             )}
           </div>
         </header>
 
-        <main className="mx-auto max-w-5xl px-6 pb-24 sm:px-10">
+        <main className="px-6 pb-24 sm:px-10">
           {sorteoActivo && (
             <div
               className="mb-14 rounded-xl border p-6"
@@ -84,14 +84,14 @@ export async function PortalPublicPage({ slug }: Props) {
                   🎡
                 </div>
                 <div className="flex-1">
-                  <p className="text-xs font-bold tracking-[0.2em] uppercase" style={{ color }}>
+                  <p className="text-xs font-bold tracking-[0.2em] uppercase" style={{ color: withBanner ? tc : color }}>
                     Sorteo activo
                   </p>
                   <p className="mt-1.5 text-xl font-bold">{sorteoActivo.titulo}</p>
                   {sorteoActivo.descripcion && (
-                    <p className="mt-1 text-sm opacity-70">{sorteoActivo.descripcion}</p>
+                    <p className="mt-1 text-sm text-muted-foreground">{sorteoActivo.descripcion}</p>
                   )}
-                  <p className="mt-3 text-sm opacity-60">
+                  <p className="mt-3 text-sm text-muted-foreground">
                     Al comprar cualquier producto participas automáticamente en este sorteo.
                   </p>
                 </div>
@@ -111,24 +111,24 @@ export async function PortalPublicPage({ slug }: Props) {
                 <Link
                   key={producto.id}
                   href={`/p/${producto.id}`}
-                  className="group rounded-xl border bg-white p-6 shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5"
+                  className="group rounded-xl border bg-card p-6 transition-all hover:shadow-md hover:-translate-y-0.5"
                   style={{ borderColor: `${color}20` }}
                 >
                   <div
                     className="mb-4 h-2 w-10 rounded-full"
                     style={{ backgroundColor: color }}
                   />
-                  <h3 className="text-lg font-bold text-stone-800 group-hover:underline">
+                  <h3 className="text-lg font-bold text-foreground group-hover:underline">
                     {producto.titulo}
                   </h3>
                   {producto.descripcion && (
-                    <p className="mt-2 text-sm leading-relaxed text-stone-500">
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                       {producto.descripcion}
                     </p>
                   )}
-                  <p className="mt-3 text-sm text-stone-400">
+                  <p className="mt-3 text-sm text-muted-foreground">
                     {producto.tipo} ·{" "}
-                    <span className="font-semibold text-stone-700">
+                    <span className="font-semibold text-foreground">
                       ${Number(producto.precio).toLocaleString("es-CO")}
                     </span>
                   </p>

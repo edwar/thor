@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react"
 import confetti from "canvas-confetti"
 
-const COLORS = ["#818cf8", "#c084fc", "#f472b6", "#34d399", "#fbbf24", "#f87171", "#22d3ee", "#f97316"]
+const COLORS = ["#44acd4", "#1a7a9e", "#f472b6", "#34d399", "#fbbf24", "#f87171", "#22d3ee", "#f97316"]
 
 function randomIn(min: number, max: number) {
   return Math.random() * (max - min) + min

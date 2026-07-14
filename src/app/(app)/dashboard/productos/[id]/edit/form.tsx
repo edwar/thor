@@ -123,8 +123,8 @@ export function EditarProductoForm({ producto }: { producto: ProductoData }) {
         <input type="hidden" name="previewUrl" value={previewUrl} />
         <input type="hidden" name="previewKey" value={previewKey} />
 
-        <div className="flex gap-4">
-          <Button type="submit" disabled={!archivoUrl} className="bg-thor-600 hover:bg-thor-500">
+        <div className="flex justify-end gap-4">
+          <Button type="submit" disabled={!archivoUrl} className="bg-thor-600 text-white hover:bg-thor-500">
             Guardar cambios
           </Button>
           <Button type="button" variant="outline" onClick={() => router.push("/dashboard/productos")}>

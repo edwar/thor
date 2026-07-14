@@ -76,7 +76,7 @@ export default async function BonoPage(props: { params: Promise<{ slug: string; 
           )}
 
           {pagoExitoso && (
-            <div className="mt-8 rounded-2xl border bg-white p-8 shadow-sm" style={{ borderColor: "#7c3aed20" }}>
+            <div className="mt-8 rounded-2xl border bg-white p-8 shadow-sm" style={{ borderColor: "#1a7a9e20" }}>
               <p className="text-sm text-stone-500">Tu puesto(s) asignado(s)</p>
               <p className="mt-2 bg-gradient-to-r from-thor-600 to-thor-400 bg-clip-text text-5xl font-bold tracking-widest text-transparent">
                 # {bono.puestos.join(" · ")}

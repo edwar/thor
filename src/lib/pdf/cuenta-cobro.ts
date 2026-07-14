@@ -37,7 +37,7 @@ export function renderCuentaCobroHTML(params: {
     }
     .header h1 {
       font-size: 14px;
-      color: #a78bfa;
+      color: #1a7a9e;
       text-transform: uppercase;
       letter-spacing: 2px;
       margin-bottom: 4px;
@@ -77,7 +77,7 @@ export function renderCuentaCobroHTML(params: {
     }
     .total .value {
       font-size: 18px;
-      color: #a78bfa;
+      color: #1a7a9e;
     }
     .footer {
       margin-top: 32px;

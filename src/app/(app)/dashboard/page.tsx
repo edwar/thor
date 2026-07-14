@@ -13,7 +13,7 @@ export default async function DashboardPage() {
   })
 
   return (
-    <div className="mx-auto max-w-5xl space-y-10">
+    <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">

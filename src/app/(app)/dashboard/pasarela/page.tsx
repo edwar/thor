@@ -25,23 +25,23 @@ export default async function PasarelaPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-zinc-100">
+        <h1 className="text-2xl font-bold text-foreground">
           Pasarela de pago
         </h1>
-        <p className="mt-1 text-zinc-400">
+        <p className="mt-1 text-muted-foreground">
           Registra las llaves de tu cuenta de Wompi o Bold. Tus clientes pagarán
           directamente a tu cuenta.
         </p>
       </div>
 
       {config && (
-        <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6">
-          <h2 className="font-semibold text-zinc-100">Configuración actual</h2>
-          <div className="mt-3 space-y-1 text-sm text-zinc-400">
-            <p>Proveedor: <span className="text-zinc-200">{config.proveedor}</span></p>
+        <div className="rounded-lg border border-border bg-card p-5">
+          <h2 className="text-sm font-semibold text-foreground">Configuración actual</h2>
+          <div className="mt-2 space-y-1 text-sm text-muted-foreground">
+            <p>Proveedor: <span className="text-foreground">{config.proveedor}</span></p>
             <p>
               Modo:{" "}
-              <span className="text-zinc-200">
+              <span className="text-foreground">
                 {config.sandbox ? "Sandbox (pruebas)" : "Producción"}
               </span>
             </p>
@@ -86,9 +86,9 @@ export default async function PasarelaPage() {
             },
           })
         }}
-        className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6"
+        className="rounded-lg border border-border bg-card p-6"
       >
-        <h2 className="mb-6 text-lg font-semibold text-zinc-100">
+        <h2 className="mb-5 text-base font-semibold text-foreground">
           {config ? "Actualizar configuración" : "Nueva configuración"}
         </h2>
 
@@ -128,15 +128,17 @@ export default async function PasarelaPage() {
               defaultChecked={config?.sandbox ?? true}
               className="size-4 rounded-[4px] border border-input bg-input/30 text-primary accent-thor-600"
             />
-            <span className="text-sm text-zinc-300">
+            <span className="text-sm text-muted-foreground">
               Modo sandbox (pruebas)
             </span>
           </label>
         </div>
 
-        <Button type="submit" className="mt-6 bg-thor-600 hover:bg-thor-500">
-          {config ? "Actualizar" : "Guardar configuración"}
-        </Button>
+        <div className="flex justify-end">
+          <Button type="submit" className="mt-6 bg-thor-600 text-white hover:bg-thor-500">
+            {config ? "Actualizar" : "Guardar configuración"}
+          </Button>
+        </div>
       </form>
     </div>
   )

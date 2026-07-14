@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { FormSelect } from "@/components/form-select"
 import { ProductFileUpload } from "@/components/product-file-upload"
@@ -34,9 +35,9 @@ export default function NuevoProductoPage() {
   const previewHint = PREVIEW_HINTS[tipo] ?? PREVIEW_HINTS.IMAGEN
 
   return (
-    <div className="mx-auto max-w-lg">
-      <h1 className="text-2xl font-bold text-zinc-100">Nuevo producto</h1>
-      <p className="mt-1 text-zinc-400">
+    <div>
+      <h1 className="text-2xl font-bold text-foreground">Nuevo producto</h1>
+      <p className="mt-1 text-muted-foreground">
         Crea un producto digital. Se vinculará automáticamente al sorteo activo.
       </p>
 
@@ -79,35 +80,46 @@ export default function NuevoProductoPage() {
           </div>
         </div>
 
-        <ProductFileUpload
-          label="Archivo del producto"
-          apiUrl="/api/upload-producto"
-          responseField="archivoUrl"
-          responseKeyField="archivoKey"
-          acceptedExtensions={tipoHint.accept}
-          hint={tipoHint.hint}
-          onUploaded={(url, key) => { setArchivoUrl(url); setArchivoKey(key) }}
-          tipo={tipo}
-        />
-        <input type="hidden" name="archivoUrl" value={archivoUrl} />
-        <input type="hidden" name="archivoKey" value={archivoKey} />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <ProductFileUpload
+              label="Archivo del producto"
+              apiUrl="/api/upload-producto"
+              responseField="archivoUrl"
+              responseKeyField="archivoKey"
+              acceptedExtensions={tipoHint.accept}
+              hint={tipoHint.hint}
+              onUploaded={(url, key) => { setArchivoUrl(url); setArchivoKey(key) }}
+              tipo={tipo}
+            />
+            <input type="hidden" name="archivoUrl" value={archivoUrl} />
+            <input type="hidden" name="archivoKey" value={archivoKey} />
+          </div>
 
-        <ProductFileUpload
-          label="Preview (vista previa pública)"
-          apiUrl="/api/upload-producto-preview"
-          responseField="previewUrl"
-          responseKeyField="previewKey"
-          acceptedExtensions={previewHint.accept}
-          hint={previewHint.hint}
-          onUploaded={(url, key) => { setPreviewUrl(url); setPreviewKey(key) }}
-          tipo={tipo}
-        />
-        <input type="hidden" name="previewUrl" value={previewUrl} />
-        <input type="hidden" name="previewKey" value={previewKey} />
+          <div>
+            <ProductFileUpload
+              label="Preview (vista previa pública)"
+              apiUrl="/api/upload-producto-preview"
+              responseField="previewUrl"
+              responseKeyField="previewKey"
+              acceptedExtensions={previewHint.accept}
+              hint={previewHint.hint}
+              onUploaded={(url, key) => { setPreviewUrl(url); setPreviewKey(key) }}
+              tipo={tipo}
+            />
+            <input type="hidden" name="previewUrl" value={previewUrl} />
+            <input type="hidden" name="previewKey" value={previewKey} />
+          </div>
+        </div>
 
-        <Button type="submit" disabled={!archivoUrl} className="w-full bg-thor-600 hover:bg-thor-500">
-          Crear producto
-        </Button>
+        <div className="flex justify-end gap-4">
+          <Button type="submit" disabled={!archivoUrl} className="bg-thor-600 text-white hover:bg-thor-500">
+            Crear producto
+          </Button>
+          <Button variant="outline" nativeButton={false} render={<Link href="/dashboard/productos" />} className="cursor-default">
+            Cancelar
+          </Button>
+        </div>
       </form>
     </div>
   )

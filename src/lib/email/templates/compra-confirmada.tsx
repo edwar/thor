@@ -36,7 +36,7 @@ export function CompraConfirmadaEmail({
       <Head />
       <Body style={{ backgroundColor: "#09090b", color: "#e4e4e7", fontFamily: "system-ui, sans-serif" }}>
         <Container style={{ maxWidth: 560, margin: "0 auto", padding: "40px 24px" }}>
-          <Text style={{ fontSize: 24, fontWeight: 700, color: "#a78bfa" }}>
+          <Text style={{ fontSize: 24, fontWeight: 700, color: "#1a7a9e" }}>
             THOR
           </Text>
 
@@ -63,7 +63,7 @@ export function CompraConfirmadaEmail({
             <Text style={{
               fontSize: 32,
               fontWeight: 700,
-              color: "#a78bfa",
+              color: "#1a7a9e",
               letterSpacing: 4,
               marginTop: 8,
             }}>
@@ -97,7 +97,7 @@ export function CompraConfirmadaEmail({
                   display: "inline-block",
                   padding: "12px 24px",
                   borderRadius: 8,
-                  backgroundColor: "#7c3aed",
+                  backgroundColor: "#1a7a9e",
                   color: "#fff",
                   fontSize: 14,
                   fontWeight: 600,

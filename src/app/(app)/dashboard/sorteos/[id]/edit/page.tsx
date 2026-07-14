@@ -139,7 +139,7 @@ export default async function EditarSorteoPage(props: { params: Promise<{ id: st
           </div>
         </section>
 
-        <div className="flex gap-4">
+        <div className="flex justify-end gap-4">
           <button type="submit" className="rounded-lg bg-thor-600 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-thor-500">
             Guardar cambios
           </button>

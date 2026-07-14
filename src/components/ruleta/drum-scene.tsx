@@ -207,7 +207,7 @@ function Lights() {
       <ambientLight intensity={0.8} />
       <directionalLight position={[0, 0, 6]} intensity={1.6} />
       <directionalLight position={[4, 2, 4]} intensity={0.6} />
-      <pointLight position={[0, 0, 5]} intensity={0.5} color="#818cf8" />
+      <pointLight position={[0, 0, 5]} intensity={0.5} color="#44acd4" />
     </>
   )
 }
