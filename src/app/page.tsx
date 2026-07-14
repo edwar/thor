@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { LogoIcon } from "@/components/logo"
 
 const features = [
   {
@@ -49,9 +50,14 @@ export default function HomePage() {
       </div>
 
       <header className="flex items-center justify-between px-6 py-5 sm:px-10">
-        <span className="bg-gradient-to-r from-thor-400 to-thor-300 bg-clip-text text-2xl font-bold tracking-tight text-transparent">
-          Thor
-        </span>
+        <div className="flex items-center gap-3">
+          <div className="flex h-8 w-8 items-center justify-center">
+            <LogoIcon size={30} />
+          </div>
+          <span className="bg-gradient-to-r from-thor-400 to-thor-300 bg-clip-text text-2xl font-bold tracking-tight text-transparent">
+            Thor
+          </span>
+        </div>
         <nav className="flex items-center gap-4">
           <Link
             href="/signin"

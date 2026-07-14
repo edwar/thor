@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   },
   description:
     "La plataforma SaaS premium para vender productos digitales con sorteos gamificados en vivo. Vende bonos, asigna puestos con aleatoriedad criptográfica y celebra el sorteo con ruleta en vivo.",
+  icons: {
+    icon: "/icon.svg",
+  },
   openGraph: {
     title: "Thor — Sorteos Gamificados en Vivo",
     description:

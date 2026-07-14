@@ -1,6 +1,7 @@
 import { auth, signOut } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import { SidebarNav } from "@/components/sidebar-nav"
+import { Logo } from "@/components/logo"
 
 export default async function AppLayout({
   children,
@@ -16,15 +17,7 @@ export default async function AppLayout({
     <div className="flex h-screen">
       <aside className="flex w-64 shrink-0 flex-col border-r border-border bg-background">
         <div className="flex items-center gap-3 border-b border-border px-6 py-5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-thor-400 to-thor-600 text-sm font-bold text-white shadow-sm">
-            T
-          </div>
-          <a
-            href="/dashboard"
-            className="bg-gradient-to-r from-thor-300 to-thor-400 bg-clip-text text-lg font-bold tracking-tight text-transparent"
-          >
-            Thor
-          </a>
+          <Logo href="/dashboard" />
         </div>
 
         <div className="flex-1 overflow-y-auto px-3 py-4">

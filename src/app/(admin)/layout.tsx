@@ -2,6 +2,7 @@ import Link from "next/link"
 import { auth, signOut } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import { AdminNavLink } from "@/components/admin-nav-link"
+import { LogoIcon } from "@/components/logo"
 
 export default async function AdminLayout({
   children,
@@ -17,9 +18,12 @@ export default async function AdminLayout({
       <aside className="flex w-64 flex-col border-r border-border bg-background p-6">
         <Link
           href="/admin"
-          className="mb-6 text-lg font-bold tracking-tight"
+          className="mb-6 flex items-center gap-2"
         >
-          <span className="bg-gradient-to-r from-thor-400 to-thor-300 bg-clip-text text-transparent">
+          <div className="flex h-6 w-6 items-center justify-center">
+            <LogoIcon size={22} />
+          </div>
+          <span className="bg-gradient-to-r from-thor-400 to-thor-300 bg-clip-text text-lg font-bold tracking-tight text-transparent">
             Thor
           </span>{" "}
           <span className="text-xs font-normal text-muted-foreground">admin</span>
