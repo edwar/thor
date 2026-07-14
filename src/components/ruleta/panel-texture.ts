@@ -30,13 +30,13 @@ export function createPanelTexture(data: PanelData): THREE.CanvasTexture {
   ctx.quadraticCurveTo(0, 0, r, 0)
   ctx.closePath()
 
-  // Silver/chrome gradient for normal, purple glow for winner
+  // Silver/chrome gradient for normal, thor blue glow for winner
   const grad = ctx.createLinearGradient(0, 0, w, 0)
   if (data.isWinner) {
-    grad.addColorStop(0, "#3b1d8e")
-    grad.addColorStop(0.3, "#6d28d9")
-    grad.addColorStop(0.7, "#6d28d9")
-    grad.addColorStop(1, "#3b1d8e")
+    grad.addColorStop(0, "#002c42")
+    grad.addColorStop(0.3, "#005477")
+    grad.addColorStop(0.7, "#005477")
+    grad.addColorStop(1, "#002c42")
   } else {
     grad.addColorStop(0, "#e4e4e7")
     grad.addColorStop(0.3, "#f4f4f5")
@@ -47,7 +47,7 @@ export function createPanelTexture(data: PanelData): THREE.CanvasTexture {
   ctx.fill()
 
   // Subtle border
-  ctx.strokeStyle = data.isWinner ? "rgba(139,92,246,0.7)" : "rgba(0,0,0,0.08)"
+  ctx.strokeStyle = data.isWinner ? "rgba(26,122,158,0.7)" : "rgba(0,0,0,0.08)"
   ctx.lineWidth = 1.5
   ctx.stroke()
 
@@ -63,20 +63,20 @@ export function createPanelTexture(data: PanelData): THREE.CanvasTexture {
   // Name
   ctx.font = "600 13px -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif"
   ctx.textAlign = "left"
-  ctx.fillStyle = data.isWinner ? "#e0e0ff" : "#1c1917"
+  ctx.fillStyle = data.isWinner ? "#d6eef7" : "#1c1917"
   ctx.fillText(truncate(data.nombre, 22), 14, h / 2)
 
   // Position #
   ctx.font = "600 11px 'SF Mono', 'SF Pro Text', monospace"
   ctx.textAlign = "right"
-  ctx.fillStyle = data.isWinner ? "#a78bfa" : "#78716c"
+  ctx.fillStyle = data.isWinner ? "#44acd4" : "#78716c"
   ctx.fillText(`#${data.puestos.join(" · ")}`, w - 14, h / 2)
 
   // Winner glow overlay
   if (data.isWinner) {
-    ctx.shadowColor = "rgba(139,92,246,0.6)"
+    ctx.shadowColor = "rgba(26,122,158,0.6)"
     ctx.shadowBlur = 12
-    ctx.strokeStyle = "rgba(139,92,246,0.5)"
+    ctx.strokeStyle = "rgba(26,122,158,0.5)"
     ctx.lineWidth = 2.5
     ctx.stroke()
     ctx.shadowBlur = 0

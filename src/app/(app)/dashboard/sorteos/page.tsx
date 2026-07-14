@@ -37,8 +37,8 @@ export default async function SorteosListPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-100">Mis sorteos</h1>
-          <p className="mt-1 text-zinc-400">
+          <h1 className="text-2xl font-bold text-foreground">Mis sorteos</h1>
+          <p className="mt-1 text-muted-foreground">
             Gestiona tus sorteos y productos digitales.
           </p>
         </div>
@@ -51,8 +51,8 @@ export default async function SorteosListPage() {
       </div>
 
       {sorteos.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-zinc-700 p-12 text-center">
-          <p className="text-zinc-400">Aún no tienes sorteos creados.</p>
+        <div className="rounded-lg border border-dashed border-border p-16 text-center">
+          <p className="text-sm font-medium text-muted-foreground">Aún no tienes sorteos creados.</p>
           <Link
             href="/dashboard/sorteos/nuevo"
             className="mt-3 inline-block text-sm text-thor-400 hover:text-thor-300"
@@ -61,40 +61,46 @@ export default async function SorteosListPage() {
           </Link>
         </div>
       ) : (
-        <div className="space-y-3">
+        <div className="divide-y divide-border/50">
           {sorteos.map((s) => (
             <div
               key={s.id}
-              className="flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-900/50 p-5 transition hover:border-zinc-700"
+              className="flex items-center justify-between gap-4 py-3"
             >
-              <Link href={`/dashboard/sorteos/${s.id}`} className="flex-1">
-                <h3 className="font-semibold text-zinc-100">{s.titulo}</h3>
-                <div className="mt-1 flex items-center gap-4 text-sm text-zinc-500">
+              <Link href={`/dashboard/sorteos/${s.id}`} className="flex-1 min-w-0">
+                <span className="text-sm font-semibold text-foreground">{s.titulo}</span>
+                <div className="mt-0.5 flex items-center gap-3 text-xs text-muted-foreground">
                   <span
-                    className={`rounded border px-2 py-0.5 text-xs font-medium ${estadoColors[s.estado]}`}
+                    className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ${
+                      s.estado === "ACTIVO" ? "bg-green-900/20 text-green-400" :
+                      s.estado === "EN_SORTEO" ? "bg-thor-900/20 text-thor-400" :
+                      s.estado === "FINALIZADO" ? "bg-blue-900/20 text-blue-400" :
+                      s.estado === "CANCELADO" ? "bg-red-900/20 text-red-400" :
+                      "bg-muted text-muted-foreground"
+                    }`}
                   >
                     {estadoLabels[s.estado]}
                   </span>
                   <span>$ {Number(s.precioBono).toLocaleString("es-CO")}</span>
                   <span>
-                    {s._count.participantes} / {s.totalBonos} bonos
+                    {s._count.participantes} / {s.totalBonos}
                   </span>
-                  <span>
+                  <span className="hidden sm:inline">
                     {s.fechaSorteo.toLocaleDateString("es-CO")}
                   </span>
                 </div>
               </Link>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 shrink-0">
                 <Link
                   href={`/dashboard/sorteos/${s.id}`}
-                  className="rounded-lg px-3 py-1.5 text-sm text-zinc-400 transition hover:bg-zinc-800 hover:text-zinc-200"
+                  className="rounded-md px-2.5 py-1 text-xs text-muted-foreground transition hover:bg-muted hover:text-foreground"
                 >
                   Ver
                 </Link>
                 <Link
                   href={`/dashboard/sorteos/${s.id}/edit`}
-                  className="rounded-lg px-3 py-1.5 text-sm text-zinc-400 transition hover:bg-zinc-800 hover:text-zinc-200"
+                  className="rounded-md px-2.5 py-1 text-xs text-muted-foreground transition hover:bg-muted hover:text-foreground"
                 >
                   Editar
                 </Link>

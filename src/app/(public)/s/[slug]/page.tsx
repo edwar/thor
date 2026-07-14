@@ -70,7 +70,7 @@ export default async function PublicSorteoOrPortalPage(props: { params: Promise<
         <div className="h-2 w-full bg-gradient-to-r from-thor-600 to-thor-400" />
       )}
 
-      <div className="relative z-10" style={{ color: tc }}>
+      <div className="relative z-10 text-foreground" style={{ color: withBanner ? tc : undefined }}>
         <header className="flex items-center justify-between px-6 py-5 sm:px-10">
           <div className="flex items-center gap-3">
             {sorteo.sorteador.logoUrl && (
@@ -80,15 +80,15 @@ export default async function PublicSorteoOrPortalPage(props: { params: Promise<
                 className="h-9 w-9 rounded-full object-cover ring-2 ring-white/10"
               />
             )}
-            <span className="text-sm font-medium opacity-80">
+            <span className="text-sm font-medium text-muted-foreground">
               {sorteo.sorteador.nombrePublico}
             </span>
           </div>
         </header>
 
-        <main className="mx-auto max-w-4xl px-6 pb-24 pt-12 sm:px-10">
+        <main className="px-6 pb-24 pt-12 sm:px-10">
           <div className="mx-auto max-w-2xl text-center">
-            <div className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-bold tracking-wider uppercase" style={{ borderColor: withBanner ? `${tc}40` : `${color}40`, color: withBanner ? tc : color }}>
+            <div className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-bold tracking-wider uppercase" style={{ borderColor: `${color}40`, color: withBanner ? tc : color }}>
               Sorteo en vivo
             </div>
 
@@ -97,7 +97,7 @@ export default async function PublicSorteoOrPortalPage(props: { params: Promise<
             </h1>
 
             {sorteo.descripcion && (
-              <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed opacity-70">
+              <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
                 {sorteo.descripcion}
               </p>
             )}
@@ -105,7 +105,7 @@ export default async function PublicSorteoOrPortalPage(props: { params: Promise<
 
           <div className="mt-14 flex justify-center">
             <div className="text-center">
-              <p className="mb-4 text-xs font-bold tracking-[0.2em] uppercase" style={{ opacity: 0.7 }}>
+              <p className="mb-4 text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">
                 {sorteo.estado === "ACTIVO" ? "Cierre de venta" : "Sorteo finalizado"}
               </p>
               <Countdown targetDate={sorteo.fechaCierre.toISOString()} />
@@ -113,8 +113,8 @@ export default async function PublicSorteoOrPortalPage(props: { params: Promise<
           </div>
 
           <div className="mt-14 grid gap-6 sm:grid-cols-2">
-            <div className="rounded-xl border p-6 text-center" style={{ borderColor: withBanner ? `${tc}20` : `${color}20`, backgroundColor: withBanner ? `${tc}08` : `${color}08` }}>
-              <p className="text-xs font-bold tracking-[0.2em] uppercase" style={{ opacity: 0.7 }}>
+            <div className="rounded-xl border p-6 text-center" style={{ borderColor: `${color}20`, backgroundColor: `${color}06` }}>
+              <p className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">
                 Premio
               </p>
               {sorteo.tipoPremio === "FIJO" ? (
@@ -126,15 +126,15 @@ export default async function PublicSorteoOrPortalPage(props: { params: Promise<
                   <p className="mt-3 text-4xl font-bold">
                     {sorteo.porcentajePremio}%
                   </p>
-                  <p className="mt-1 text-sm opacity-70">
+                  <p className="mt-1 text-sm text-muted-foreground">
                     del recaudo total ≈ $ {totalRecaudo.toLocaleString("es-CO")}
                   </p>
                 </div>
               )}
             </div>
 
-            <div className="rounded-xl border p-6 text-center" style={{ borderColor: withBanner ? `${tc}20` : `${color}20`, backgroundColor: withBanner ? `${tc}08` : `${color}08` }}>
-              <p className="text-xs font-bold tracking-[0.2em] uppercase" style={{ opacity: 0.7 }}>
+            <div className="rounded-xl border p-6 text-center" style={{ borderColor: `${color}20`, backgroundColor: `${color}06` }}>
+              <p className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">
                 Bonos vendidos
               </p>
               <p className="mt-3 text-4xl font-bold">
@@ -144,8 +144,8 @@ export default async function PublicSorteoOrPortalPage(props: { params: Promise<
           </div>
 
           {producto && (
-            <div className="mt-8 rounded-xl border p-6 text-center" style={{ borderColor: withBanner ? `${tc}20` : `${color}20`, backgroundColor: withBanner ? `${tc}08` : `${color}08` }}>
-              <p className="text-xs font-bold tracking-[0.2em] uppercase" style={{ opacity: 0.7 }}>
+            <div className="mt-8 rounded-xl border p-6 text-center" style={{ borderColor: `${color}20`, backgroundColor: `${color}06` }}>
+              <p className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">
                 Producto digital incluido
               </p>
               <p className="mt-2 text-xl font-bold">
@@ -175,23 +175,23 @@ export default async function PublicSorteoOrPortalPage(props: { params: Promise<
                   name="nombre"
                   required
                   placeholder="Tu nombre completo"
-                  className="w-full border-b bg-transparent px-2 py-3 text-sm placeholder:opacity-50 outline-none transition-all focus:border-opacity-100"
-                  style={{ borderColor: `${tc ?? color}4D`, color: tc ?? "#292524" }}
+                  className="w-full border-b bg-transparent px-2 py-3 text-sm placeholder:text-muted-foreground outline-none transition-all"
+                  style={{ borderColor: `${tc ?? color}4D`, color: tc ?? "var(--color-foreground)" }}
                 />
                 <input
                   type="email"
                   name="email"
                   required
                   placeholder="Tu correo electrónico"
-                  className="w-full border-b bg-transparent px-2 py-3 text-sm placeholder:opacity-50 outline-none transition-all focus:border-opacity-100"
-                  style={{ borderColor: `${tc ?? color}4D`, color: tc ?? "#292524" }}
+                  className="w-full border-b bg-transparent px-2 py-3 text-sm placeholder:text-muted-foreground outline-none transition-all"
+                  style={{ borderColor: `${tc ?? color}4D`, color: tc ?? "var(--color-foreground)" }}
                 />
                 <input
                   type="tel"
                   name="telefono"
                   placeholder="Teléfono (opcional)"
-                  className="w-full border-b bg-transparent px-2 py-3 text-sm placeholder:opacity-50 outline-none transition-all focus:border-opacity-100"
-                  style={{ borderColor: `${tc ?? color}4D`, color: tc ?? "#292524" }}
+                  className="w-full border-b bg-transparent px-2 py-3 text-sm placeholder:text-muted-foreground outline-none transition-all"
+                  style={{ borderColor: `${tc ?? color}4D`, color: tc ?? "var(--color-foreground)" }}
                 />
                 <button
                   type="submit"
@@ -200,7 +200,7 @@ export default async function PublicSorteoOrPortalPage(props: { params: Promise<
                 >
                   Comprar bono — $ {precioFormatted}
                 </button>
-                <p className="text-center text-sm opacity-60" style={{ color: tc ?? "#78716c" }}>
+                <p className="text-center text-sm text-muted-foreground">
                   Paga con PSE, Nequi, Daviplata o tarjeta de crédito
                 </p>
               </form>

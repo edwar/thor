@@ -21,7 +21,7 @@ export default async function AppLayout({
           </div>
           <a
             href="/dashboard"
-            className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-lg font-bold tracking-tight text-transparent"
+            className="bg-gradient-to-r from-thor-300 to-thor-400 bg-clip-text text-lg font-bold tracking-tight text-transparent"
           >
             Thor
           </a>
@@ -31,9 +31,14 @@ export default async function AppLayout({
           <SidebarNav isAdmin={isAdmin} />
         </div>
 
-        <div className="border-t border-border px-6 py-4">
-          <div className="mb-3 truncate text-sm text-muted-foreground">
-            {session.user.name ?? session.user.email}
+        <div className="border-t border-border/50 px-4 py-4 pb-5">
+          <div className="mb-3 flex items-center gap-3">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-thor-600/20 text-xs font-bold text-thor-400">
+              {(session.user.name ?? session.user.email ?? "?").charAt(0).toUpperCase()}
+            </div>
+            <div className="min-w-0 flex-1 truncate text-sm text-muted-foreground">
+              {session.user.name ?? session.user.email}
+            </div>
           </div>
           <form
             action={async () => {

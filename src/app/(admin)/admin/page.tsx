@@ -36,7 +36,7 @@ export default async function AdminDashboardPage() {
   })
 
   return (
-    <div className="mx-auto max-w-5xl space-y-10">
+    <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Panel de administración</h1>
         <p className="mt-1.5 text-muted-foreground">

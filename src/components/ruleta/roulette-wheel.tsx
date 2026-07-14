@@ -237,7 +237,7 @@ export function RouletteWheel({
                   >
                     <span className={`text-[15px] font-semibold truncate tracking-wide transition-all duration-500 ${
                       isFinished && isWinnerPanel 
-                        ? "text-violet-100 font-bold drop-shadow-[0_0_10px_rgba(167,139,250,0.6)]" 
+                        ? "text-blue-100 font-bold drop-shadow-[0_0_10px_rgba(26,122,158,0.6)]" 
                         : "text-zinc-300"
                     }`}>
                       {p.nombre}
@@ -245,7 +245,7 @@ export function RouletteWheel({
                     
                     <span className={`text-xs font-semibold tabular-nums transition-all duration-500 ${
                       isFinished && isWinnerPanel 
-                        ? "text-fuchsia-400 font-bold drop-shadow-[0_0_8px_rgba(244,63,94,0.4)]" 
+                        ? "text-thor-300 font-bold drop-shadow-[0_0_8px_rgba(26,122,158,0.4)]" 
                         : "text-zinc-500"
                     }`}>
                       #{p.puestos.join(" · ")}
@@ -265,7 +265,7 @@ export function RouletteWheel({
         <div
           className={`pointer-events-none absolute inset-x-2 z-10 rounded-2xl border transition-all duration-700 ${
             isFinished
-              ? "border-violet-500/50 border-l-4 border-l-violet-400 bg-gradient-to-r from-violet-500/10 via-fuchsia-500/15 to-violet-500/10 shadow-[0_0_20px_rgba(139,92,246,0.3),inset_0_1px_1px_rgba(255,255,255,0.15)]"
+              ? "border-thor-500/50 border-l-4 border-l-thor-400 bg-gradient-to-r from-thor-500/10 via-cyan-500/15 to-thor-500/10 shadow-[0_0_20px_rgba(26,122,158,0.3),inset_0_1px_1px_rgba(255,255,255,0.15)]"
               : "border-white/10 border-l-[3px] border-l-white/30 bg-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]"
           }`}
           style={{

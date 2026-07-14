@@ -51,15 +51,15 @@ export default async function AdminComisionesPage() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="rounded-xl border border-amber-accent-800/30 bg-amber-accent-900/10 p-5">
-          <p className="text-sm text-amber-accent-300/70">Pendiente por cobrar</p>
-          <p className="mt-1 text-2xl font-bold text-amber-accent-300">
+        <div className="rounded-xl border border-amber-accent-500/20 bg-amber-accent-500/5 p-5">
+          <p className="text-sm text-amber-accent-700 dark:text-amber-accent-300">Pendiente por cobrar</p>
+          <p className="mt-1 text-2xl font-bold text-foreground">
             $ {totalPendiente.toLocaleString("es-CO")}
           </p>
         </div>
-        <div className="rounded-xl border border-emerald-800/30 bg-emerald-900/10 p-5">
-          <p className="text-sm text-emerald-300/70">Total cobrado</p>
-          <p className="mt-1 text-2xl font-bold text-emerald-300">
+        <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-5">
+          <p className="text-sm text-emerald-700 dark:text-emerald-300">Total cobrado</p>
+          <p className="mt-1 text-2xl font-bold text-foreground">
             $ {totalCobrado.toLocaleString("es-CO")}
           </p>
         </div>
